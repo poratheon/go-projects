@@ -1,31 +1,22 @@
 package main
 
 import (
-	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
-type SearchRequest struct {
-	Question string `json:"question"`
-	Limit    int    `json:"limit"`
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello")
 }
 
-type SearchResponse struct {
-	Answer   string   `json:"answer"`
-	Sources  []string `json:"sources"`
-	Duration string   `json:"duration_ms"`
-}
-
-func searchHandler (w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	var req SearchRequest
-	err := json.NewDecoder(r.Body). 
-}
 func main() {
-	
+	http.HandleFunc("/", helloHandler)
+	portNum := 8080
+	port := ":" + strconv.Itoa(portNum)
+	fmt.Printf("Starting server on port %v\n", portNum)
+	if err := http.ListenAndServe(port, nil); err != nil {
+		log.Fatal(err)
+	}
 }

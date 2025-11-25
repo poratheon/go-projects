@@ -51,27 +51,24 @@ func ParseAndValidateRequest(data []byte) (*CortexRequest, error) {
 func main() {
 	rawJSON := []byte(`{"query_text":"Does Ford own any licenses of NX?", "limit": 5}`)
 
-	var req CortexRequest
-
-	err := json.Unmarshal(rawJSON, &req)
+	req, err := ParseAndValidateRequest(rawJSON)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("Parsed Struct:  %+v\n", req)
+	fmt.Printf("Parsed Struct:  %+v\n", *req)
 	fmt.Println("Question:", req.QueryText)
 
 	rawJSON2 := []byte(`{"query_text":"Does this show the limit?", "limit": 0}`)
 
-	var req2 CortexRequest
-
-	err = json.Unmarshal(rawJSON2, &req2)
+	var req2 *CortexRequest
+	req2, err = ParseAndValidateRequest(rawJSON2)
 
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("Parsed second struct:  %+v\n", req2)
+	fmt.Printf("Parsed second struct:  %+v\n", *req2)
 	fmt.Println("Question:", req2.QueryText)
 
 }

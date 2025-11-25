@@ -107,4 +107,30 @@ func main() {
     ```
     *(Note: The duration will likely be 0 or a very small number).*
 
+### 4. (Bonus) Testing from the Browser Console
+
+You cannot test a `POST` endpoint by simply typing a URL into the browser's address bar, but you *can* use the browser's built-in **Developer Tools**. This is how a frontend web application would communicate with your API.
+
+1.  Make sure your Go application is running.
+2.  Open a new, empty tab in your browser (typing `about:blank` works well).
+3.  Open the Developer Tools (usually `F12` or `Cmd+Opt+I` on Mac) and click the **"Console"** tab.
+4.  Paste this JavaScript `fetch` command into the console and press Enter:
+
+```javascript
+fetch('http://localhost:8080/api/search', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    question: "what is the meaning of life? (from browser)",
+    limit: 3
+  }),
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+```
+You will see the JSON response from your API logged directly in the console.
+
 ---
